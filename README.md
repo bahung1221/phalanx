@@ -41,25 +41,25 @@ bar_service.borrow().call(
 
 ### Roadmap
 
-- [] Request-Reply
-- [] Transporter
-    - [] Nats
-    - [] TCP
-    - [] Kafka
-- [] Serializers
-    - [] JSON
-    - [] Protocol Buffer
-- [] API Gateway
-- [] Service Registry
-    - [] Service discovery
-    - [] Heath check
-- [] Fault tolerance
-    - [] Load balancer (built-in if using Nats or Kafka).
-    - [] Circuit breaker.
-    - [] Retries & Timeout.
-    - [] Bulkhead.
-- [] Middleware
-- [] Logger
-- [] Metrics/Services monitoring cli tool
-- [] Stream (for streaming files through services,...)
+- [ ] Request-Reply
+- [ ] Transporter
+    - [ ] Nats
+    - [ ] TCP
+    - [ ] Kafka
+- [ ] Serializers
+    - [ ] JSON
+    - [ ] Protocol Buffer
+- [ ] API Gateway
+- [ ] Service Registry
+    - [ ] Service discovery
+    - [ ] Heath check
+- [ ] Fault tolerance
+    - [ ] Load balancer (built-in if using Nats or Kafka).
+    - [ ] Circuit breaker.
+    - [ ] Retries & Timeout.
+    - [ ] Bulkhead.
+- [ ] Middleware
+- [ ] Logger
+- [ ] Metrics/Services monitoring cli tool
+- [ ] Stream (for streaming files through services,...)
 
