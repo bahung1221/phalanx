@@ -13,7 +13,7 @@ Bulb also have a local pubsub system, that allow services on same server communi
 ### Concept:
 ![Concept](./assets/architecture.jpeg)
 
-### Usages:
+### Usages
 
 **NOTE**: This is just the ideal flow of Bulb, the framework is still under construction.
 
@@ -38,3 +38,28 @@ bar_service.borrow().call(
     String::from("sample json data"),
 );
 ```
+
+### Roadmap
+
+- [] Request-Reply
+- [] Transporter
+    - [] Nats
+    - [] TCP
+    - [] Kafka
+- [] Serializers
+    - [] JSON
+    - [] Protocol Buffer
+- [] API Gateway
+- [] Service Registry
+    - [] Service discovery
+    - [] Heath check
+- [] Fault tolerance
+    - [] Load balancer (built-in if using Nats or Kafka).
+    - [] Circuit breaker.
+    - [] Retries & Timeout.
+    - [] Bulkhead.
+- [] Middleware
+- [] Logger
+- [] Metrics/Services monitoring cli tool
+- [] Stream (for streaming files through services,...)
+
