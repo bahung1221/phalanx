@@ -11,3 +11,29 @@ Bulb also have a local pubsub system, that allow services on same server communi
 
 ### Concept:
 ![Concept](./assets/architecture.jpeg)
+
+### Usages:
+
+**NOTE**: This is just the ideal flow of Bulb, the framework is still under construction.
+
+```rs
+let broker = Broker::new(LocalTransporter::new());
+
+let foo_service = broker.borrow_mut().create_service("foo".to_owned());
+let bar_service = broker.borrow_mut().create_service("bar".to_owned());
+
+// Subscribe to an action for "foo"
+foo_service.borrow_mut().subscribe("hello".to_owned(), Box::new(|ctx| {
+    println!("Foo Hello World!: {:?}", ctx);
+}));
+
+thread::sleep(Duration::from_millis(1000));
+
+// Call an action of "foo" from "bar"
+bar_service.borrow().call(
+    Context::default(),
+    String::from("foo"), 
+    String::from("hello"), 
+    String::from("sample json data"),
+);
+```
