@@ -1,6 +1,7 @@
 
 # UNDER CONSTRUCTION
-This library is under construction, so use at your own risk
+This library is under construction, only use it if you want to experiment.
+Any contribution is welcome.
 
 ### Why Bulb?
 Bulb is an lightweight microservices framework with simple, familiar syntax that was inspired by [ExpressJS](https://github.com/expressjs/express),
