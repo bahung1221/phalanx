@@ -7,8 +7,8 @@ keywords = ["microservices", "web", "framework"]
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-bulb-transporter-core = { path = "../transporter/core" }
-bulb-transporter-local = { path = "../transporter/local" }
+bulb-transporter-core = { path = "../transporters/core" }
+bulb-transporter-local = { path = "../transporters/local" }
 
 [dev-dependencies]
-bulb-transporter-nats = { path = "../transporter/nats" }
+bulb-transporter-nats = { path = "../transporters/nats" }

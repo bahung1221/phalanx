@@ -4,7 +4,7 @@ members = [
     "crates/gateway",
     "crates/broker",
     "crates/service",
-    "crates/transporter/core",
-    "crates/transporter/local",
-    "crates/transporter/nats",
+    "crates/transporters/core",
+    "crates/transporters/local",
+    "crates/transporters/nats",
 ]
