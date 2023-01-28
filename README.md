@@ -1,5 +1,8 @@
+# Bulb
 
-# UNDER CONSTRUCTION
+Microservices framework for Rust.
+
+## UNDER CONSTRUCTION
 This library is under construction, only use it if you want to experiment.
 Any contribution is welcome.
 

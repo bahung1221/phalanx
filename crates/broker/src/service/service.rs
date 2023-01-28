@@ -2,20 +2,21 @@ use std::{cell::RefCell, rc::Rc};
 
 use crate::{
     context::context::{Context, IncomingRequest},
-    event_bus::event_bus::{EventBus, Subscriber},
+    event_bus::event_bus::{Subscriber}, 
+    transporters::{local::LocalTransporter, base::Transporter},
 };
 
 #[derive(Clone)]
 pub struct Service {
     pub name: String,
-    pub broker_event_bus: Rc<RefCell<EventBus>>,
+    pub local_transporter: Rc<RefCell<LocalTransporter>>,
 }
 
 impl Service {
-    fn new(name: String, event_bus: Rc<RefCell<EventBus>>) -> Self {
+    fn new(name: String, local_transporter: Rc<RefCell<LocalTransporter>>) -> Self {
         Service {
             name,
-            broker_event_bus: event_bus,
+            local_transporter,
         }
     }
 
@@ -24,7 +25,7 @@ impl Service {
         action_listener_name.push_str(&":".clone());
         action_listener_name.push_str(&action.clone());
 
-        self.broker_event_bus
+        self.local_transporter
             .borrow_mut()
             .subscribe(action_listener_name, listener);
     }
@@ -39,7 +40,7 @@ impl Service {
             body: data.clone(),
         };
 
-        self.broker_event_bus.borrow().publish("call".to_owned(), new_ctx);
+        self.local_transporter.borrow().publish("call".to_owned(), new_ctx);
     }
 }
 
@@ -51,15 +52,19 @@ mod tests {
 
     #[test]
     fn it_works() {
-        let event_bus = Rc::new(RefCell::new(EventBus::default()));
+        let local_transporter = Rc::new(
+            RefCell::new(
+                LocalTransporter::new()
+            )
+        );
 
         let mut service1 = Service {
             name: "service-1".to_owned(),
-            broker_event_bus: event_bus.clone(),
+            local_transporter: local_transporter.clone(),
         };
         let service2 = Service {
             name: "service-2".to_owned(),
-            broker_event_bus: event_bus.clone(),
+            local_transporter: local_transporter.clone(),
         };
 
         service1.subscribe(String::from("hello"), Box::new(|ctx| {

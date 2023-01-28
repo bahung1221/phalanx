@@ -28,7 +28,7 @@ impl base::Transporter for LocalTransporter {
         self.event_bus.subscribe(subject.clone(), listener);
     }
 
-    fn publish(&mut self, subject: String, data: Context) {
+    fn publish(&self, subject: String, data: Context) {
         self.event_bus.publish(subject, data);
     }
 }

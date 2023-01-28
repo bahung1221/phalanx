@@ -6,5 +6,5 @@ pub trait Transporter {
     fn connect(&mut self) -> Result<bool, io::Error>;
     fn disconnect(&mut self) -> Result<bool, io::Error>;
     fn subscribe(&mut self, subject: String, listener: Box<Subscriber>);
-    fn publish(&mut self, subject: String, data: Context);
+    fn publish(&self, subject: String, data: Context);
 }
