@@ -1,0 +1,10 @@
+[package]
+name = "bulb-transporter-local"
+version = "0.1.0"
+edition = "2021"
+keywords = ["microservices", "web", "framework"]
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+bulb-transporter-core = { path = "../core" }

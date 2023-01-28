@@ -1,9 +1,7 @@
 use std::collections::HashMap;
 
-use crate::context::context::Context;
-
-/// A subscriber (listener) has type of a callable function.
-pub type Subscriber = dyn Fn(Context);
+use bulb_transporter_core::Subscriber;
+use bulb_transporter_core::context::Context;
 
 #[derive(Default)]
 pub struct EventBus {

@@ -3,13 +3,10 @@ use std::collections::HashMap;
 use std::rc::Rc;
 
 use service::service::Service;
-use transporters::base::Transporter;
-use transporters::local::LocalTransporter;
+use bulb_transporter_core::Transporter;
+use bulb_transporter_local::LocalTransporter;
 
-mod transporters;
 mod service;
-mod event_bus;
-mod context;
 
 #[derive(Clone)]
 pub struct Broker<T: Transporter> {
@@ -93,7 +90,8 @@ impl<T: Transporter> BrokerTrait for Broker<T> {
 mod tests {
     use std::{thread, time::Duration};
 
-    use crate::{transporters::nats::NatsTransporter, context::context::Context};
+    use bulb_transporter_core::context::Context;
+    use bulb_transporter_nats::NatsTransporter;
 
     use super::*;
 

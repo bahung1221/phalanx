@@ -1,7 +1,7 @@
 use std::io;
-
-use super::base;
-use crate::{event_bus::event_bus::Subscriber, context::context::Context};
+use bulb_transporter_core::Subscriber;
+use bulb_transporter_core::Transporter;
+use bulb_transporter_core::context::Context;
 
 pub struct NatsTransporter;
 
@@ -11,7 +11,7 @@ impl NatsTransporter {
     }
 }
 
-impl base::Transporter for NatsTransporter {
+impl Transporter for NatsTransporter {
     fn connect(&mut self) -> Result<bool, io::Error> {
         return Ok(true);
     }
@@ -21,7 +21,6 @@ impl base::Transporter for NatsTransporter {
     }
 
     fn subscribe(&mut self, subject: String, listener: Box<Subscriber>) {
-        println!("Subscribed for: {}", subject);
         todo!()
     }
 

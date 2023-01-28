@@ -1,10 +1,8 @@
 use std::{cell::RefCell, rc::Rc};
 
-use crate::{
-    context::context::{Context, IncomingRequest},
-    event_bus::event_bus::{Subscriber}, 
-    transporters::{local::LocalTransporter, base::Transporter},
-};
+use bulb_transporter_core::{Transporter, Subscriber};
+use bulb_transporter_core::context::{Context, IncomingRequest};
+use bulb_transporter_local::LocalTransporter;
 
 #[derive(Clone)]
 pub struct Service {

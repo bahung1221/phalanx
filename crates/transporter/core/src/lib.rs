@@ -1,6 +1,11 @@
 use std::io;
 
-use crate::{event_bus::event_bus::Subscriber, context::context::Context};
+use context::Context;
+
+pub mod context;
+
+/// A subscriber (listener) has type of a callable function.
+pub type Subscriber = dyn Fn(Context);
 
 pub trait Transporter {
     fn connect(&mut self) -> Result<bool, io::Error>;
