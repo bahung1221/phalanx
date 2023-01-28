@@ -1,5 +1,5 @@
 [package]
-name = "bulb-broker"
+name = "phalanx-broker"
 version = "0.1.0"
 edition = "2021"
 keywords = ["microservices", "web", "framework"]
@@ -7,8 +7,8 @@ keywords = ["microservices", "web", "framework"]
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-bulb-transporter-core = { path = "../transporters/core" }
-bulb-transporter-local = { path = "../transporters/local" }
+phalanx-transporter-core = { path = "../transporters/core" }
+phalanx-transporter-local = { path = "../transporters/local" }
 
 [dev-dependencies]
-bulb-transporter-nats = { path = "../transporters/nats" }
+phalanx-transporter-nats = { path = "../transporters/nats" }

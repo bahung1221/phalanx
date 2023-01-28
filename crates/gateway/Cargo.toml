@@ -1,5 +1,5 @@
 [package]
-name = "bulb-gateway"
+name = "phalanx-gateway"
 version = "0.1.0"
 edition = "2021"
 keywords = ["microservices", "web", "framework"]

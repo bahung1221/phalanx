@@ -1,7 +1,7 @@
 use std::collections::HashMap;
 
-use bulb_transporter_core::Subscriber;
-use bulb_transporter_core::context::Context;
+use phalanx_transporter_core::Subscriber;
+use phalanx_transporter_core::context::Context;
 
 #[derive(Default)]
 pub struct EventBus {

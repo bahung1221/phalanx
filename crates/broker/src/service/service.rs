@@ -1,8 +1,8 @@
 use std::{cell::RefCell, rc::Rc};
 
-use bulb_transporter_core::{Transporter, Subscriber};
-use bulb_transporter_core::context::{Context, IncomingRequest};
-use bulb_transporter_local::LocalTransporter;
+use phalanx_transporter_core::{Transporter, Subscriber};
+use phalanx_transporter_core::context::{Context, IncomingRequest};
+use phalanx_transporter_local::LocalTransporter;
 
 #[derive(Clone)]
 pub struct Service {

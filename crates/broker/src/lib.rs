@@ -3,8 +3,8 @@ use std::collections::HashMap;
 use std::rc::Rc;
 
 use service::service::Service;
-use bulb_transporter_core::Transporter;
-use bulb_transporter_local::LocalTransporter;
+use phalanx_transporter_core::Transporter;
+use phalanx_transporter_local::LocalTransporter;
 
 mod service;
 
@@ -90,8 +90,8 @@ impl<T: Transporter> BrokerTrait for Broker<T> {
 mod tests {
     use std::{thread, time::Duration};
 
-    use bulb_transporter_core::context::Context;
-    use bulb_transporter_nats::NatsTransporter;
+    use phalanx_transporter_core::context::Context;
+    use phalanx_transporter_nats::NatsTransporter;
 
     use super::*;
 

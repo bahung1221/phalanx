@@ -1,7 +1,7 @@
 use std::io;
-use bulb_transporter_core::Subscriber;
-use bulb_transporter_core::Transporter;
-use bulb_transporter_core::context::Context;
+use phalanx_transporter_core::Subscriber;
+use phalanx_transporter_core::Transporter;
+use phalanx_transporter_core::context::Context;
 use event_bus::event_bus::EventBus;
 
 mod event_bus;

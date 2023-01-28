@@ -1,4 +1,4 @@
-# Bulb
+# Phalanx
 
 Microservices framework for Rust.
 
@@ -6,19 +6,19 @@ Microservices framework for Rust.
 This library is under construction, only use it if you want to experiment.
 Any contribution is welcome.
 
-### Why Bulb?
-Bulb is an lightweight microservices framework with simple, familiar syntax that was inspired by [ExpressJS](https://github.com/expressjs/express),
+### Why Phalanx?
+**Phalanx** is an lightweight microservices framework with simple, familiar syntax that was inspired by [ExpressJS](https://github.com/expressjs/express),
 allow you to create transport layer for microservices in Rust as quick as possible.
 
-Currently, Bulb is building around [nats](https://github.com/nats-io/nats-server) as central messaging system.
-Bulb also have a local pubsub system, that allow services on same server communicate with each other fastest without remote messaging system.
+Currently, **Phalanx** is building around [nats](https://github.com/nats-io/nats-server) as central messaging system.
+**Phalanx** also have a local pubsub system, that allow services on same server communicate with each other fastest without remote messaging system.
 
 ### Concept:
 ![Concept](./assets/architecture.jpeg)
 
 ### Usages
 
-**NOTE**: This is just the ideal flow of Bulb, the framework is still under construction.
+**NOTE**: This is just the ideal flow of Phalanx, the framework is still under construction.
 
 ```rs
 let broker = Broker::new(LocalTransporter::new());
