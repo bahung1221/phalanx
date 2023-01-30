@@ -97,7 +97,7 @@ mod tests {
 
     #[test]
     fn should_able_to_create_broker_and_service() {
-        let broker = Broker::new(NatsTransporter::new());
+        let broker = Broker::new(LocalTransporter::new());
         let broker_cloned = broker.clone();
         let broker_transporter = &broker_cloned
             .borrow()
@@ -117,7 +117,7 @@ mod tests {
 
     #[test]
     fn local_transporter() {
-        let broker = Broker::new(NatsTransporter::new());
+        let broker = Broker::new(LocalTransporter::new());
 
         let foo_service = broker.borrow_mut().create_service("foo".to_owned());
         let bar_service = broker.borrow_mut().create_service("bar".to_owned());

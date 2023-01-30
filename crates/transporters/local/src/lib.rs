@@ -1,4 +1,6 @@
 use std::io;
+use async_trait::async_trait;
+use futures::future;
 use phalanx_transporter_core::Subscriber;
 use phalanx_transporter_core::Transporter;
 use phalanx_transporter_core::context::Context;
@@ -18,20 +20,17 @@ impl LocalTransporter {
     }
 }
 
+#[async_trait]
 impl Transporter for LocalTransporter {
-    fn connect(&mut self) -> Result<bool, io::Error> {
-        return Ok(true);
-    }
-
-    fn disconnect(&mut self) -> Result<bool, io::Error> {
-        return Ok(true);
-    }
-
-    fn subscribe(&mut self, subject: String, listener: Box<Subscriber>) {
+    async fn subscribe(&mut self, subject: String, listener: Box<Subscriber>) {
         self.event_bus.subscribe(subject.clone(), listener);
+
+        future::ready(true);
     }
 
-    fn publish(&self, subject: String, data: Context) {
+    async fn publish(&self, subject: String, data: Context) {
         self.event_bus.publish(subject, data);
+
+        future::ready(true);
     }
 }

@@ -8,3 +8,5 @@ keywords = ["microservices", "web", "framework"]
 
 [dependencies]
 phalanx-transporter-core = { path = "../core" }
+async-trait = "0"
+futures = "0.3"
