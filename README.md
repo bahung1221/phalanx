@@ -21,25 +21,32 @@ Currently, **Phalanx** is building around [nats](https://github.com/nats-io/nats
 **NOTE**: This is just the ideal flow of Phalanx, the framework is still under construction.
 
 ```rs
-let broker = Broker::new(LocalTransporter::new());
+let transporter = NatsTransporter::new("nats://demo.nats.io:4222".into()).await;
+let mut broker = Broker::new(transporter).await;
 
-let foo_service = broker.borrow_mut().create_service("foo".to_owned());
-let bar_service = broker.borrow_mut().create_service("bar".to_owned());
+let foo_service = broker.create_service("foo".to_owned()).await;
+let bar_service = broker.create_service("bar".to_owned()).await;
 
-// Subscribe to an action for "foo"
-foo_service.borrow_mut().subscribe("hello".to_owned(), Box::new(|ctx| {
-    println!("Foo Hello World!: {:?}", ctx);
-}));
+// "Foo" is a subscriber service
+foo_service
+    .lock()
+    .await
+    .subscribe("hello".to_owned(), Box::new(|ctx| {
+        println!("Foo Hello World!: {:?}", ctx);
+    }))
+    .await;
 
-thread::sleep(Duration::from_millis(1000));
-
-// Call an action of "foo" from "bar"
-bar_service.borrow().call(
-    Context::default(),
-    String::from("foo"), 
-    String::from("hello"), 
-    String::from("sample json data"),
-);
+// "Bar" call "foo" by publish an action
+bar_service
+    .lock()
+    .await
+    .call(
+        Context::default(),
+        String::from("foo"),
+        String::from("hello"),
+        String::from("sample data"),
+    )
+    .await;
 ```
 
 ### Roadmap

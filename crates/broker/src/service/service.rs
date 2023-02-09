@@ -1,34 +1,41 @@
-use std::{cell::RefCell, rc::Rc};
+use std::sync::{Arc};
+use futures::lock::Mutex;
 
 use phalanx_transporter_core::{Transporter, Subscriber};
 use phalanx_transporter_core::context::{Context, IncomingRequest};
-use phalanx_transporter_local::LocalTransporter;
 
 #[derive(Clone)]
-pub struct Service {
+pub struct Service<T: Transporter> {
     pub name: String,
-    pub local_transporter: Rc<RefCell<LocalTransporter>>,
+    pub transporter: Arc<Mutex<T>>,
 }
 
-impl Service {
-    fn new(name: String, local_transporter: Rc<RefCell<LocalTransporter>>) -> Self {
+impl<T: Transporter> Service<T> {
+    fn new(
+        name: String, 
+        transporter: Arc<Mutex<T>>,
+    ) -> Self {
         Service {
             name,
-            local_transporter,
+            transporter,
         }
     }
 
-    pub fn subscribe(&mut self, action: String, listener: Box<Subscriber>) {
-        let mut action_listener_name: String = self.name.clone();
+    pub async fn subscribe(&mut self, action: String, listener: Box<Subscriber>) {
+        let mut action_listener_name = self.name.clone();
         action_listener_name.push_str(&":".clone());
         action_listener_name.push_str(&action.clone());
 
-        self.local_transporter
-            .borrow_mut()
-            .subscribe(action_listener_name, listener);
+        println!("2: {}", action_listener_name);
+
+        self.transporter
+            .lock()
+            .await
+            .subscribe(action_listener_name, listener)
+            .await;
     }
 
-    pub fn call(&self, ctx: Context, target_service: String, action: String, data: String) {
+    pub async fn call(&self, ctx: Context, target_service: String, action: String, data: String) {
         let mut new_ctx = ctx.clone();
 
         new_ctx.metadata.request_chains.push(self.name.clone());
@@ -38,7 +45,17 @@ impl Service {
             body: data.clone(),
         };
 
-        self.local_transporter.borrow().publish("call".to_owned(), new_ctx);
+        let mut target = target_service.clone();
+        target.push_str(&":".clone());
+        target.push_str(&action.clone());
+
+        println!("3: {}", target);
+
+        self.transporter
+            .lock()
+            .await
+            .publish(target.into(), new_ctx)
+            .await;
     }
 }
 
@@ -46,23 +63,25 @@ impl Service {
 mod tests {
     use std::{thread, time::Duration};
 
+    use phalanx_transporter_local::LocalTransporter;
+
     use super::*;
 
-    #[test]
-    fn it_works() {
-        let local_transporter = Rc::new(
-            RefCell::new(
+    #[tokio::test()]
+    async fn it_works() {
+        let transporter = Arc::new(
+            Mutex::new(
                 LocalTransporter::new()
-            )
+            ),
         );
 
         let mut service1 = Service {
             name: "service-1".to_owned(),
-            local_transporter: local_transporter.clone(),
+            transporter: transporter.clone(),
         };
         let service2 = Service {
             name: "service-2".to_owned(),
-            local_transporter: local_transporter.clone(),
+            transporter: transporter.clone(),
         };
 
         service1.subscribe(String::from("hello"), Box::new(|ctx| {
@@ -71,7 +90,7 @@ mod tests {
                 String::from("service-1:hello"),
                 ctx,
             );
-        }));
+        })).await;
 
         thread::sleep(Duration::from_millis(4000));
 
@@ -80,6 +99,6 @@ mod tests {
             String::from("service-1"),
             String::from("hello"),
             String::from("sample data"),
-        );
+        ).await;
     }
 }

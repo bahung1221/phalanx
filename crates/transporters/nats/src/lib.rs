@@ -1,3 +1,5 @@
+use std::thread;
+
 use async_nats::Subscriber;
 use async_trait::async_trait;
 use futures::StreamExt;
@@ -27,21 +29,27 @@ impl NatsTransporter {
 #[async_trait]
 impl Transporter for NatsTransporter {
     async fn subscribe(&mut self, subject: String, listener: Box<(dyn Fn(Context) + 'static + Send + Sync)>) {
-        let mut subscriber = self.client.subscribe(subject.clone()).await.unwrap();
+        let client_cloned = self.client.clone();
 
-        while let Some(msg) = subscriber.next().await {
-            println!("{:?}", msg);
+        thread::spawn(move || {
+            async move {
+                let mut subscriber = client_cloned.subscribe(subject.clone()).await.unwrap();
 
-            let payload = msg.payload.to_vec();
-            let payload = std::str::from_utf8(&payload);
-            let mut context = Context::default();
-            context.req = IncomingRequest {
-                service: "sample service".into(),
-                action: "sample action".into(),
-                body: payload.unwrap().into(),
-            };
-            listener(context);
-        }
+                while let Some(msg) = subscriber.next().await {
+                    println!("{:?}", msg);
+
+                    let payload = msg.payload.to_vec();
+                    let payload = std::str::from_utf8(&payload);
+                    let mut context = Context::default();
+                    context.req = IncomingRequest {
+                        service: "sample service".into(),
+                        action: "sample action".into(),
+                        body: payload.unwrap().into(),
+                    };
+                    listener(context);
+                }
+            }
+        });
     }
 
     async fn publish(&self, subject: String, data: Context) {

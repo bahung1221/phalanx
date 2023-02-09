@@ -22,7 +22,7 @@ impl LocalTransporter {
 
 #[async_trait]
 impl Transporter for LocalTransporter {
-    async fn subscribe(&mut self, subject: String, listener: Box<Subscriber>) {
+    async fn subscribe(&mut self, subject: String, listener: Box<(dyn Fn(Context) + 'static + Send + Sync)>) {
         self.event_bus.subscribe(subject.clone(), listener);
 
         future::ready(true);

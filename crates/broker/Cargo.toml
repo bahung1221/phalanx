@@ -9,6 +9,9 @@ keywords = ["microservices", "web", "framework"]
 [dependencies]
 phalanx-transporter-core = { path = "../transporters/core" }
 phalanx-transporter-local = { path = "../transporters/local" }
+async-trait = "0"
+tokio = "1"
+futures = "0.3"
 
 [dev-dependencies]
 phalanx-transporter-nats = { path = "../transporters/nats" }
